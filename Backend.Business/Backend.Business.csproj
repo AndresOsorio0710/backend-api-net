@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Backend.Business.Interface\Backend.Business.Interface.csproj" />
+    <ProjectReference Include="..\Backend.Entities\Backend.Entities.csproj" />
+    <ProjectReference Include="..\Backend.Repository.Interface\Backend.Repository.Interface.csproj" />
+    <ProjectReference Include="..\Backend.Utilities\Backend.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>
