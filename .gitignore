@@ -3,3 +3,5 @@
 /**/bin/
 /**/obj/
 /**/Resources/
+/release
+/rest-client

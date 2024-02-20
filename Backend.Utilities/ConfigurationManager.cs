@@ -4,6 +4,7 @@ using System.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Backend.Entities.Configs;
+using System.Diagnostics;
 
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("es-CO")]
@@ -21,7 +22,7 @@ namespace Backend.Utilities
             GetrApplicationPath();
             this.configuration = new ConfigurationBuilder()
                 .SetBasePath(ApplicationPath)
-                .AddJsonFile("appsettings.json", false, false)
+                .AddJsonFile(Debugger.IsAttached ? "appsettings.Development.json" : "appsettings.json", false, true)
                 .AddEnvironmentVariables()
                 .Build();
             this.SetJwtValues();
@@ -31,11 +32,23 @@ namespace Backend.Utilities
 
         private void SetFirebaseCredentialPath()
         {
-            int index = ApplicationPath.IndexOf("\\bin", StringComparison.OrdinalIgnoreCase);
-            this.DBFirebaseValues = new DBFirebaseValues(
+            System.Console.WriteLine(ApplicationPath);
+            int index = ApplicationPath.IndexOf(Debugger.IsAttached ? "\\bin" : "app", StringComparison.OrdinalIgnoreCase);
+            if (index >= 0)
+            {
+                this.DBFirebaseValues = new DBFirebaseValues(
                 ApplicationPath.Substring(0, index) + configuration["DBFirebaseValues:CredentialPath"],
                 configuration["DBFirebaseValues:Variable"],
                 configuration["DBFirebaseValues:ProjectId"]);
+            }
+            else
+            {
+                Console.WriteLine("La subcadena '\\bin' no se encontró en la ruta de la aplicación.");
+                // Puedes lanzar una excepción, si es necesario
+                throw new InvalidOperationException("La subcadena '\\bin' no se encontró en la ruta de la aplicación." + ApplicationPath);
+            }
+            System.Console.WriteLine(ApplicationPath);
+
         }
 
         private void SetCryptography()

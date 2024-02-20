@@ -71,9 +71,22 @@ builder.Services.AddSwaggerGen(confi =>
                     Id = "Bearer",
                     Type = ReferenceType.SecurityScheme,
                 }
-            }, 
-            new List<string>() 
+            },
+            new List<string>()
         }
+    });
+});
+
+var corsName = "Corspolicy";
+
+// Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(corsName, builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
     });
 });
 
